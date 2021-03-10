@@ -92,8 +92,7 @@ router.route('/movie')
     MovieNew.title = req.body.title;
     MovieNew.year = req.body.year;
     MovieNew.genre = req.body.genre;
-    MovieNew.actors[{ActorName:}, {CharactorName:}] = req.body.actors;
-    actors: [{ActorName: {type: String}, required: true}, {CharactorName: {type: String}, required: true}]
+    MovieNew.actors[ActorName, CharactorName] = req.body.actors;
 
     MovieNew.save(funtion(err){
         if(err){
