@@ -85,6 +85,15 @@ router.post('/signin', function (req, res) {
     })
 });
 
+router.route('/movie')
+    .post(authJwtController.isAuthenticated, funtion(req, res){
+
+    }
+
+
+
+);
+
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
