@@ -86,25 +86,26 @@ router.post('/signin', function (req, res) {
 });
 
 router.route('/movie')
-    .post(authJwtController.isAuthenticated, function (req, res){
-    //if passed atuhentication
-    var MovieNew = new Movie();
-    MovieNew.title = req.body.title;
-    MovieNew.year = req.body.year;
-    MovieNew.genre = req.body.genre;
-    MovieNew.actors = req.body.actors;
+    .post(authJwtController.isAuthenticated, function (req, res) {
+        //if passed atuhentication
+        var MovieNew = new Movie();
+        MovieNew.title = req.body.title;
+        MovieNew.year = req.body.year;
+        MovieNew.genre = req.body.genre;
+        MovieNew.actors = req.body.actors;
 
-    MovieNew.save(function (err) {
-        if (err) {
-            if(err.code == 11000)
-                return res.json({success: false, message: 'A movie with the information already exists.'});
-            else
-                return res.json(err);
-        }
+        MovieNew.save(function (err) {
+            if (err) {
+                if (err.code == 11000)
+                    return res.json({success: false, message: 'A movie with the information already exists.'});
+                else
+                    return res.json(err);
+            }
 
-        res.json({success: true, msg: 'movie saved.'})
+            res.json({success: true, msg: 'movie saved.'})
 
-});
+        })
+    });
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
