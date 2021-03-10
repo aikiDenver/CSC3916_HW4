@@ -87,10 +87,31 @@ router.post('/signin', function (req, res) {
 
 router.route('/movie')
     .post(authJwtController.isAuthenticated, funtion(req, res){
+    //if passed atuhentication
+    var MovieNew = new Movie();
+    MovieNew.title = req.body.title;
+    MovieNew.year = req.body.year;
+    MovieNew.genre = req.body.genre;
+    MovieNew.actors[{ActorName:}, {CharactorName:}] = req.body.actors;
+    actors: [{ActorName: {type: String}, required: true}, {CharactorName: {type: String}, required: true}]
+
+    MovieNew.save(funtion(err){
+        if(err){
+            return res.send(err);
+        }
+        else{
+            res.status(200).send({
+                stasus: 200,
+                msg: 'movie saved',
+                headers: req.headers,
+                query: req.query
+            });
+        }
+
 
     }
 
-
+})
 
 );
 
