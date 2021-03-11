@@ -88,7 +88,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
-router.route('/Movies')
+router.route('/movies')
     .get(function(req, res){
             //if the user isAuthenticated
             res.json({status: 200, msg: 'GET movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
@@ -120,7 +120,7 @@ router.route('/Movies')
             res.json(o);
         }
 
-    );
+);
 
 /*
 
