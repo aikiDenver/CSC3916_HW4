@@ -89,23 +89,8 @@ router.post('/signin', function (req, res) {
 });
 
 router.post('/movies',function (req,res){
-        var MovieNew = new Movie();
-        MovieNew.title = req.body.title;
-        MovieNew.year = req.body.year;
-        MovieNew.genre = req.body.genre;
-        MovieNew.actors = req.body.actors;
+     res.json({status: 200, msg: "movie saved", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
 
-        MovieNew.save(function (err) {
-            if (err) {
-                if (err.code == 11000)
-                    return res.json({success: false, message: 'A movie with the information already exists.'});
-                else
-                    return res.json(err);
-            }
-
-            res.json({success: true, msg: 'movie saved.'})
-
-        })
 }
 );
 /*router.route('/movies')
