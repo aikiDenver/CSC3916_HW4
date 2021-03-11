@@ -96,12 +96,25 @@ router.route('/movies')
         }
     )
     .post(function (req, res){
+
+        //check if the all info is there -> not give error
+
         var MovieNew = new Movie();
         MovieNew.title = req.body.title;
         MovieNew.year = req.body.year;
         MovieNew.genre = req.body.genre;
         MovieNew.actors = req.body.actors;
-            res.json({status: 200, msg: "movie saved", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+        MovieNew.save(function (err) {
+            if (err) {
+                if (err.code == 11000)
+                    return res.json({success: false, message: 'A movie with the information already exists.'});
+                else
+                    return res.json(err);
+            }
+
+            res.json({success: true, msg: 'movie saved.'})
+
+        } )
         }
     )
 
