@@ -88,7 +88,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
-/*
+
 router.route('/movies')
     .get(function(req, res){
             //if the user isAuthenticated
@@ -124,7 +124,7 @@ router.route('/movies')
 );
 
 
-*/
+/*
 
 router.route('/movies')
     .post(function (req, res) {
@@ -147,7 +147,7 @@ router.route('/movies')
 
         })
     });
-
+*/
 
 
 app.use('/', router);
