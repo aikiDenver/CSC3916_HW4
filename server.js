@@ -87,6 +87,41 @@ router.post('/signin', function (req, res) {
     })
 });
 
+router.route('/movies')
+    .get(function(req, res){
+            //if the user isAuthenticated
+            res.json({status: 200, msg: 'GET movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+        }
+    )
+    .post(function (req, res){
+            res.json({status: 200, msg: "movie saved", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+        }
+    )
+
+    .put(authJwtController.isAuthenticated, function(req, res){
+            console.log(req.body);
+            res = res.status(200).send({success: true, msg: "movie updated", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+            if (req.get('Content-Type')) {
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObjectForMovieRequirement(req);
+            res.json(o);
+
+        }
+    )
+    .delete(authController.isAuthenticated, function(req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObjectForMovieRequirement(req);
+            res.json(o);
+        }
+
+    );
+/*
+
 router.route('/movie')
     .post(function (req, res) {
         //if passed atuhentication
@@ -108,6 +143,8 @@ router.route('/movie')
 
         })
     });
+
+ */
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
