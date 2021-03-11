@@ -88,6 +88,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
+/*
 router.route('/movies')
     .get(function(req, res){
             //if the user isAuthenticated
@@ -123,8 +124,7 @@ router.route('/movies')
 );
 
 
-
-/*
+*/
 
 router.route('/movie')
     .post(function (req, res) {
@@ -148,7 +148,7 @@ router.route('/movie')
         })
     });
 
- */
+
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
