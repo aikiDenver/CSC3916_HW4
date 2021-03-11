@@ -96,17 +96,17 @@ router.post('/movies',function (req,res){
 /*router.route('/movies')
     .get(function(req, res){
             //if the user isAuthenticated
-            res.json({status: 200, msg: 'GET movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+            res.json({status: 200, msg: 'GET movies', headers: req.headers, query: req.query, .env: process..env.UNIQUE_KEY});
         }
     )
     .post(function (req, res){
-            res.json({status: 200, msg: "movie saved", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+            res.json({status: 200, msg: "movie saved", headers: req.headers, query: req.query, .env: process..env.UNIQUE_KEY});
         }
     )
 
     .put(authJwtController.isAuthenticated, function(req, res){
             console.log(req.body);
-            res = res.status(200).send({success: true, msg: "movie updated", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+            res = res.status(200).send({success: true, msg: "movie updated", headers: req.headers, query: req.query, .env: process..env.UNIQUE_KEY});
             if (req.get('Content-Type')) {
                 res = res.type(req.get('Content-Type'));
             }

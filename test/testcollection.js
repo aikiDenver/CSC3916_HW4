@@ -1,4 +1,4 @@
-let envPath = __dirname + "/../.env"
+let envPath = __dirname + "/../..env"
 require('dotenv').config({path:envPath});
 let chai = require('chai');
 let chaiHttp = require('chai-http');
@@ -73,7 +73,7 @@ describe('Register, Login and Call Test Collection with Basic Auth and JWT Auth'
 
 
 
-// let envPath = __dirname + "/../.env"
+// let envPath = __dirname + "/../..env"
 // require('dotenv').config({path:envPath});
 // let chai = require('chai');
 // let chaiHttp = require('chai-http');

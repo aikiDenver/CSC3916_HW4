@@ -1,3 +1,0 @@
-SECRET_KEY=mysecretjwtkey
-DB=mongodb+srv://aiki:pass@cluster0.bhhoh.mongodb.net/HW3DB?retryWrites=true&w=majority
-UNIQUE_KEY=hopin
