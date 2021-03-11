@@ -96,6 +96,11 @@ router.route('/movies')
         }
     )
     .post(function (req, res){
+        var MovieNew = new Movie();
+        MovieNew.title = req.body.title;
+        MovieNew.year = req.body.year;
+        MovieNew.genre = req.body.genre;
+        MovieNew.actors = req.body.actors;
             res.json({status: 200, msg: "movie saved", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
         }
     )
