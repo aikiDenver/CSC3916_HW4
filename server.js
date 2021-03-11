@@ -105,6 +105,7 @@ router.route('/movies')
         MovieNew.genre = req.body.genre;
         MovieNew.actors = req.body.actors;
         MovieNew.save(function (err) {
+
             if (err) {
                 if (err.code == 11000)
                     return res.json({success: false, message: 'A movie with the information already exists.'});
@@ -112,7 +113,7 @@ router.route('/movies')
                     return res.json(err);
             }
 
-            res.json({success: true, msg: 'movie saved.'})
+            res.json({success: true, msg: 'movie saved!'})
 
         } )
         }
