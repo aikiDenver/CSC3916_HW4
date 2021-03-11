@@ -88,7 +88,7 @@ router.post('/signin', function (req, res) {
 });
 
 router.route('/movie')
-    .post(authJwtController.isAuthenticated, function (req, res) {
+    .post(function (req, res) {
         //if passed atuhentication
         var MovieNew = new Movie();
         MovieNew.title = req.body.title;
