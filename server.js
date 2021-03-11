@@ -95,7 +95,7 @@ router.route('/movies')
             res.json({status: 200, msg: 'GET movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
         }
     )
-    .post(function (req, res){
+    .post(authJwtController.isAuthenticated,function (req, res){
 
         //check if the all info is there -> not give error
 
