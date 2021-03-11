@@ -126,7 +126,7 @@ router.route('/movies')
 
 */
 
-router.route('/movie')
+router.route('/movies')
     .post(function (req, res) {
         //if passed atuhentication
         var MovieNew = new Movie();
