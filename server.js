@@ -95,29 +95,40 @@ router.route('/movies')
             res.json({status: 200, msg: 'GET movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
         }
     )
-    .post(authJwtController.isAuthenticated,function (req, res){
 
-        //check if the all info is there -> not give error
+    .post(authJwtController.isAuthenticated,function (req, res) {
 
-        var MovieNew = new Movie();
-        MovieNew.title = req.body.title;
-        MovieNew.year = req.body.year;
-        MovieNew.genre = req.body.genre;
-        MovieNew.actors = req.body.actors;
-        MovieNew.save(function (err) {
+            //check if the all info is there -> not give error
+            if (!req.body.title || !req.body.year || !req.body.genre || !req.body.actors) {
+                res.json({success: false, msg: 'Please include all the information of movie.'})
+            } else {
 
-            if (err) {
-                if (err.code == 11000)
-                    return res.json({success: false, message: 'A movie with the information already exists.'});
-                else
-                    return res.json(err);
+                var MovieNew = new Movie();
+                MovieNew.title = req.body.title;
+                MovieNew.year = req.body.year;
+                MovieNew.genre = req.body.genre;
+                MovieNew.actors = req.body.actors;
+
+                //check if there is exact same data on the database
+
+
+                //if it is give error
+                //else let the user to post the data
+
+                MovieNew.save(function (err) {
+
+                    if (err) {
+                        if (err.code == 11000)
+                            return res.json({success: false, message: 'A movie with the information already exists.'});
+                        else
+                            return res.json(err);
+                    }
+
+                    res.json({success: true, msg: 'movie saved!'})
+
+                })
             }
-
-            res.json({success: true, msg: 'movie saved!'})
-
-        } )
-        }
-    )
+        })
 
     .put(authJwtController.isAuthenticated, function(req, res){
             console.log(req.body);
