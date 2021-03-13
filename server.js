@@ -200,7 +200,7 @@ router.route('/movies')
 
                     }
                     else{
-                        Movie.remove(movie.id)
+                        Movie.remove(movie._id)
                         return res.json({success: true, msg:'Movie deleted.'})
 
                     }
