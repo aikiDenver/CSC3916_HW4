@@ -190,9 +190,10 @@ router.route('/movies')
             return res.json({success:false, msg: 'Input name of the movie that you would like to delete.'})
 
         }else{
-            if(Movie.length<=5){ // the database should have at least 5 movies
+
+            /*if(Movie.length<=5){ // the database should have at least 5 movies
                 return res.json({success:false, msg:'Cannot delete. There should be at least 5 movie in the database.'})
-            }
+            }*/
 
             Movie.findOne({title: req.body.title}).exec(function (err, movie) {
                 if (err) {
