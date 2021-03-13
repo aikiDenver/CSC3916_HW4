@@ -125,6 +125,14 @@ router.route('/movies')
         })
     .get(authJwtController.isAuthenticated, function(req, res){
         //should return all the movie
+        Movie.find(function (err,movies){
+            if(err){
+                return res.json(err);
+            }
+            else{
+                res.json(movie);
+            }
+        });
 
     })
 
