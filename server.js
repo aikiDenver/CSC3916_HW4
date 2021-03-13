@@ -107,7 +107,7 @@ router.route('/movies')
                     MovieNew.year = req.body.year;
                     MovieNew.genre = req.body.genre;
                     MovieNew.actors = req.body.actors;
-                    MovieNew.id = req.headers.id
+                    //MovieNew.id = req.headers.id
 
                     MovieNew.save(function (err) {
 
@@ -146,25 +146,38 @@ router.route('/movies')
             Movie.findOne({title: req.body.title}).exec(function (err, movie) {
                 if (err) {
                     res.send(err);
-                } else {
+                }
+                else {
                     if(movie){
+                        //check if the user input information per variable
                         if(req.body.year){
                             movie.year = req.body.year;
+                        }
+                        if(req.body.genre){
+                            movie.genre = req.body.genre;
+                        }
+                        if(req.body.actors){
+                           //check the user input 3 actors
+                            if(req.body.actors.length<3){
+                                return res.json({success:false, msg:'Make sure you input 3 actors.'})
+                            }
+                            movie.actors = req.body.actors;
                         }
 
 
                         movie.save(function (err) {
 
                             if (err) {
-                                if (err.code == 11000)// there are same title exist on database
-                                    return res.json({success: false, message: 'A movie with the title already exists.'});
-                                else
                                     return res.json(err);
                             }
 
                             res.json({success: true, msg: 'Movie updated!'})
                         })
                     }
+                    else{
+                        return res.json({success:true, msg:'There are no movie matches the title.'})
+                    }
+
                 }
             })
         }
