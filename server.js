@@ -186,45 +186,46 @@ router.route('/movies')
 
     .delete(authJwtController.isAuthenticated, function (req, res) {
         //use will pick a movie that the user wanna delete
-        if(!req.body.title) {
-            return res.json({success:false, msg: 'Input name of the movie that you would like to delete.'})
+        if (!req.body.title) {
+            return res.json({success: false, msg: 'Input name of the movie that you would like to delete.'})
 
-        }else{
+        } else {
 
             /*if(Movie.length<=5){ // the database should have at least 5 movies
                 return res.json({success:false, msg:'Cannot delete. There should be at least 5 movie in the database.'})
             }*/
-
-            Movie.findOne({title: req.body.title}).exec(function (err, movie) {
-                if (err) {
-                    res.send(err);
-                }
-                else {
-                    if(movie){
-                        var id = movie._id
-                        Movie.remove(id). exec(function(err){
-                            if(err){
+            /*
+                        Movie.findOne({title: req.body.title}).exec(function (err, movie) {
+                            if (err) {
                                 res.send(err);
                             }
-                            else{
-                                return res.json({success: true, msg:'Movie deleted.'})
-                            }
-                        })
+                            else {
+                                if(movie){
+                                    var id = movie._id
+                                    Movie.remove(id). exec(function(err){
+                                        if(err){
+                                            res.send(err);
+                                        }
+                                        else{
+                                            return res.json({success: true, msg:'Movie deleted.'})
+                                        }
+                                    })
 
-                    }
+                                }
 
+            */
 
-
-            /*
-            Movie.findOneAndDelete(req.body.title, function (err, movie){
+            Movie.findOneAndDelete(req.body.title, function (err, movie) {
                 if (err) {
                     res.send(err);
+                }else if(!movie){
+                    return res.json({success: fale, msg:'Cannot find the movie.'})
                 }
-                        return res.json({success: true, msg:'Movie deleted.'})
-                    //delete movie
-            })*/
-        }
-    })
+               else {
+                    return res.json({success: true, msg: 'Movie deleted.'})
+                }
+                //delete movie
+            })
         }
     }
 
