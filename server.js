@@ -194,14 +194,33 @@ router.route('/movies')
                 return res.json({success:false, msg:'Cannot delete. There should be at least 5 movie in the database.'})
             }
 
+            Movie.findOne({title: req.body.title}).exec(function (err, movie) {
+                if (err) {
+                    res.send(err);
+                }
+                else {
+                    if(movie){
+                        movie.remove(movie._id). exec(function(err){
+                            if(err){
+                                res.send(err);
+                            }
+                            else{
+                                return res.json({success: true, msg:'Movie deleted.'})
+                            }
+                        })
+
+                    }
+
+
+
+            /*
             Movie.findOneAndDelete(req.body.title, function (err, movie){
                 if (err) {
                     res.send(err);
                 }
                         return res.json({success: true, msg:'Movie deleted.'})
                     //delete movie
-
-            })
+            })*/
         }
     }
 
