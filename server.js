@@ -215,7 +215,7 @@ router.route('/movies')
 
             */
 
-            Movie.findOneAndDelete(req.body.title, function (err, movie) {
+            Movie.findOneAndDelete({title:req.body.title}, function (err, movie) {
                 if (err) {
                     res.send(err);
                 }else if(!movie){
