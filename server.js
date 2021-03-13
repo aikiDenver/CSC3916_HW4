@@ -107,7 +107,7 @@ router.route('/movies')
                     MovieNew.year = req.body.year;
                     MovieNew.genre = req.body.genre;
                     MovieNew.actors = req.body.actors;
-                    //MovieNew.id = req.headers.id
+                    MovieNew.id = req.headers.id
 
                     MovieNew.save(function (err) {
 
@@ -175,7 +175,7 @@ router.route('/movies')
                         })
                     }
                     else{
-                        return res.json({success:true, msg:'There are no movie matches the title.'})
+                        return res.json({success:false, msg:'There are no movie matches the title.'})
                     }
 
                 }
@@ -185,14 +185,30 @@ router.route('/movies')
 
 
     .delete(authJwtController.isAuthenticated, function (req, res) {
-                //use will pick a movie that the user wanna delete
-                console.log(req.body);
-                res = res.status(200);
-                if (req.get('Content-Type')) {
-                    res = res.type(req.get('Content-Type'));
+        //use will pick a movie that the user wanna delete
+        if(req.body.title){
+            Movie.findOne({title: req.body.title}).exec(function (err, movie){
+                if (err) {
+                    res.send(err);
                 }
-                var o = getJSONObjectForMovieRequirement(req);
-                res.json(o);
+                else{
+                    if(!movie){
+                        return res.json({success:false, msg:'There are no movie matches the title.'})
+                    }
+                    else if (Movie.count()<=5){
+                        return res.json({success: false, msg:'Cannot delete the movie. There should be at least 5 movies in the database.'})
+
+                    }
+                    else{
+                        Movie.remove(movie.id)
+                        return res.json({success: true, msg:'Movie deleted.'})
+
+                    }
+                    //delete movie
+
+                }
+            })
+        }
     }
 
 );
