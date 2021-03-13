@@ -140,22 +140,25 @@ router.route('/movies')
     .put(authJwtController.isAuthenticated, function(req, res) {
         //find movie by title and modify the information
         //find movie by title
-        Movie.findOne({title: req.body.title}).exec(function (err, Movie) {
+        if (!req.body.title) {
+            return res.json({success: false, message: 'Please input name of the movie that you want to modify.'})
+        } else {
+            Movie.findOne({title: req.body.title}).exec(function (err, movie) {
                 if (err) {
                     res.send(err);
+                } else {
+                    if(movie){
+                        if(req.body.year){
+                            movie.year = req.body.year;
+                        }
+                    }
                 }
-
-
-                //update the data already exist
-                //ask what movie id or title
-                //ask what you want to update
-                //save new information
-
-
-            }
-        )
+            })
+        }
     })
-    .delete(authController.isAuthenticated, function (req, res) {
+
+
+    .delete(authJwtController.isAuthenticated, function (req, res) {
                 //use will pick a movie that the user wanna delete
                 console.log(req.body);
                 res = res.status(200);
