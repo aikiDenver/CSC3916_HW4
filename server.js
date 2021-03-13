@@ -151,6 +151,19 @@ router.route('/movies')
                         if(req.body.year){
                             movie.year = req.body.year;
                         }
+
+
+                        movie.save(function (err) {
+
+                            if (err) {
+                                if (err.code == 11000)// there are same title exist on database
+                                    return res.json({success: false, message: 'A movie with the title already exists.'});
+                                else
+                                    return res.json(err);
+                            }
+
+                            res.json({success: true, msg: 'Movie updated!'})
+                        })
                     }
                 }
             })
