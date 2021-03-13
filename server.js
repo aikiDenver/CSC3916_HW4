@@ -186,27 +186,21 @@ router.route('/movies')
 
     .delete(authJwtController.isAuthenticated, function (req, res) {
         //use will pick a movie that the user wanna delete
-        if(req.body.title){
-            Movie.findOne({title: req.body.title}).exec(function (err, movie){
+        if(!req.body.title) {
+            return res.json({success:false, msg: 'Input name of the movie that you would like to delete.'})
+
+        }else{
+            if(Movie.length<=5){ // the database should have at least 5 movies
+                return res.json({success:false, msg:'Cannot delete. There should be at least 5 movie in the database.'})
+            }
+
+            Movie.findOneAndDelete(req.body.title, function (err, movie){
                 if (err) {
                     res.send(err);
                 }
-                else{
-                    if(!movie){
-                        return res.json({success:false, msg:'There are no movie matches the title.'})
-                    }
-                    else if (Movie.count()<=5){
-                        return res.json({success: false, msg:'Cannot delete the movie. There should be at least 5 movies in the database.'})
-
-                    }
-                    else{
-                        Movie.remove(movie._id)
                         return res.json({success: true, msg:'Movie deleted.'})
-
-                    }
                     //delete movie
 
-                }
             })
         }
     }
