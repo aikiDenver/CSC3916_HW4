@@ -91,78 +91,71 @@ router.post('/signin', function (req, res) {
 
 router.route('/movies')
 
-    .get(function(req, res){
-            //should return all the movie
-
-        }
-    )
-
     .post(authJwtController.isAuthenticated,function (req, res) {
-
+        //register a movie from the user input
             //check if the all info is there -> not give error
             if (!req.body.title || !req.body.year || !req.body.genre || !req.body.actors) {
                 res.json({success: false, msg: 'Please include all the information of movie.'})
             }
             else {
-
                 if(req.body.actors.length<3){
+                    //check if there are at least 3 actors info
                     res.json({success:false, msg:'Please input at least 3 actor/actress.'})
                 }else{
-
                     var MovieNew = new Movie();
                     MovieNew.title = req.body.title;
                     MovieNew.year = req.body.year;
                     MovieNew.genre = req.body.genre;
                     MovieNew.actors = req.body.actors;
-
-                    //check if there is exact same data on the database
-                    //use find one
-
-
-                    //if it is give error
-                    //else let the user to post the data
+                    MovieNew.id = req.headers.id
 
                     MovieNew.save(function (err) {
 
                         if (err) {
-                            if (err.code == 11000)
+                            if (err.code == 11000)// there are same title exist on database
                                 return res.json({success: false, message: 'A movie with the title already exists.'});
                             else
                                 return res.json(err);
                         }
 
-                        res.json({success: true, msg: 'movie saved!'})
-
+                        res.json({success: true, msg: 'Movie saved!'})
                 })
                 }
             }
         })
+    .get(authJwtController.isAuthenticated, function(req, res){
+        //should return all the movie
 
-    .put(authJwtController.isAuthenticated, function(req, res){
-        //update the data already exist
-        //ask what movie id or title
-        //ask what you want to update
-        //save new information
-        console.log(req.body);
-            res = res.status(200).send({success: true, msg: "movie updated", headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
-            if (req.get('Content-Type')) {
-                res = res.type(req.get('Content-Type'));
-            }
-            var o = getJSONObjectForMovieRequirement(req);
-            res.json(o);
+    })
 
-        }
-    )
-    .delete(authController.isAuthenticated, function(req, res) {
-        //use will pick a movie that the user wanna delete
-            console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                res = res.type(req.get('Content-Type'));
+    .put(authJwtController.isAuthenticated, function(req, res) {
+        //find movie by title and modify the information
+        //find movie by title
+        Movie.findOne({title: req.body.title}).exec(function (err, Movie) {
+                if (err) {
+                    res.send(err);
+                }
+
+
+                //update the data already exist
+                //ask what movie id or title
+                //ask what you want to update
+                //save new information
+
+
             }
-            var o = getJSONObjectForMovieRequirement(req);
-            res.json(o);
-        }
+        )
+    })
+    .delete(authController.isAuthenticated, function (req, res) {
+                //use will pick a movie that the user wanna delete
+                console.log(req.body);
+                res = res.status(200);
+                if (req.get('Content-Type')) {
+                    res = res.type(req.get('Content-Type'));
+                }
+                var o = getJSONObjectForMovieRequirement(req);
+                res.json(o);
+    }
 
 );
 
