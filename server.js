@@ -200,8 +200,8 @@ router.route('/movies')
                 }
                 else {
                     if(movie){
-                        //var id = movie._id
-                        Movie.remove({title:req.body.title}). exec(function(err){
+                        var id = movie._id
+                        Movie.remove(id). exec(function(err){
                             if(err){
                                 res.send(err);
                             }
