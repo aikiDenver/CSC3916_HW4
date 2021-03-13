@@ -223,6 +223,8 @@ router.route('/movies')
                     //delete movie
             })*/
         }
+    })
+        }
     }
 
 );
