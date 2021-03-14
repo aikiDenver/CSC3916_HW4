@@ -179,7 +179,7 @@ router.route('/movies')
                     }
 
                 }
-            })
+            });
         }
     })
 
@@ -225,7 +225,7 @@ router.route('/movies')
                     return res.json({success: true, msg: 'Movie deleted.'})
                 }
                 //delete movie
-            })
+            });
         }
     }
 
