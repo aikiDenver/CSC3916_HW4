@@ -3,4 +3,4 @@
 
 
 Link to heroku hw5
-https://hw5-sano.herokuapp.com/#/
+https://hw5-sano.herokuapp.com
