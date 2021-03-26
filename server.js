@@ -108,7 +108,7 @@ router.route('/movies')
                     MovieNew.year = req.body.year;
                     MovieNew.genre = req.body.genre;
                     MovieNew.actors = req.body.actors;
-                    MovieNew.id = req.headers.id
+                    //MovieNew. = req.headers.id
 
                     MovieNew.save(function (err) {
 
@@ -228,35 +228,59 @@ router.route('/movies')
                 //delete movie
             });
         }
+    })
+    .all(function (req,res){
+        res.status(405).send({msg:'This method is not available.'})
     }
 
 );
 
+router.route('/review')
+    .post(authJwtController.isAuthenticated, function (req,res){
+        if(req.body.name && req.body.comment && req.body.rating && req.body.title) {
+            var review = new Review();
+            jwt.verify(req.headers.authorization.substring(4), process.env.SECRET_KEY, function (err, ver_res) {
+                if (err) {
+                    return res.status(403).json({success: false, msg: 'Unable to post review.'});
+                } else {
+                    review.user_id = ver_res.id;
 
-/*
+                }
 
-router.route('/movies')
-    .post(function (req, res) {
-        //if passed atuhentication
-        var MovieNew = new Movie();
-        MovieNew.title = req.body.title;
-        MovieNew.year = req.body.year;
-        MovieNew.genre = req.body.genre;
-        MovieNew.actors = req.body.actors;
+                Movie.findOne({title: req.body.title}).exec(function (err, movie) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        if (movie) {//if there is a movie found
 
-        MovieNew.save(function (err) {
-            if (err) {
-                if (err.code == 11000)
-                    return res.json({success: false, message: 'A movie with the information already exists.'});
-                else
-                    return res.json(err);
-            }
+                            review.username = ver_res.username;
+                            review.comment = req.body.comment;
+                            review.rating = req.body.rating;
+                            review.title = req.body.title;
+                            review.movie_id = movie._id
+                            //review.movie_id = movie.id;
+                        } else {
+                            return res.status(403).json({
+                                success: false,
+                                msg: 'Unable to find the title of the movie.'
+                            });
+                        }
+                    }
+                })
+            })
+        }
 
-            res.json({success: true, msg: 'movie saved.'})
 
-        })
+
+        else{
+            return res.json({success:false, msg:'Please include all the infromation.'});
+        }
+
     });
-*/
+
+
+
+
 
 
 app.use('/', router);
