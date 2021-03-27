@@ -216,10 +216,10 @@ router.route('/review')
         if(req.body.comment && req.body.rating && req.body.title) {
             var review = new Review();
 
-            console.log(res)
-            return res.status(403).json({success:false, msg:'At least get here.'});
+            /*console.log(res)
+            return res.status(403).json({success:false, msg:'At least get here.'});*/
 
-            /*
+
             jwt.verify(req.headers.authorization.substring(4), process.env.SECRET_KEY, function (err, ver_res) {
                 if (err) {
                     return res.status(403).json({success: false, msg: 'Unable to post review.'});
@@ -243,6 +243,15 @@ router.route('/review')
                             review.title = req.body.title;
                             review.movie_id = movie._id
                             //review.movie_id = movie.id;
+                            review.save(function (err) {
+
+                                if (err) {
+                                    return res.json(err);
+                                }
+
+                                res.json({success: true, msg: 'Review saved!'})
+                            })
+
                         } else {
                             return res.status(403).json({
                                 success: false,
@@ -256,9 +265,9 @@ router.route('/review')
 
 
 
-        else{
-            return res.json({success:false, msg:'Please include all the information.'});
-      */  }
+        else {
+            return res.json({success: false, msg: 'Please include all the information.'});
+        }
 
     });
 
