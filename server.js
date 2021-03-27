@@ -215,6 +215,10 @@ router.route('/review')
     .post(authJwtController.isAuthenticated, function (req,res){
         if(req.body.comment && req.body.rating && req.body.title) {
             var review = new Review();
+
+            console.log(res)
+
+            /*
             jwt.verify(req.headers.authorization.substring(4), process.env.SECRET_KEY, function (err, ver_res) {
                 if (err) {
                     return res.status(403).json({success: false, msg: 'Unable to post review.'});
@@ -253,7 +257,7 @@ router.route('/review')
 
         else{
             return res.json({success:false, msg:'Please include all the information.'});
-        }
+      */  }
 
     });
 
