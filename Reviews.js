@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+var User = require('./Users');
+var Movie = require('./Movies');
 
 mongoose.Promise = global.Promise;
 
