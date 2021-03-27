@@ -213,7 +213,7 @@ router.route('/movies')
 
 router.route('/review')
     .post(authJwtController.isAuthenticated, function (req,res){
-        if(req.body.name && req.body.comment && req.body.rating && req.body.title) {
+        if(req.body.comment && req.body.rating && req.body.title) {
             var review = new Review();
             jwt.verify(req.headers.authorization.substring(4), process.env.SECRET_KEY, function (err, ver_res) {
                 if (err) {
