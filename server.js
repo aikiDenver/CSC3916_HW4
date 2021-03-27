@@ -219,7 +219,7 @@ router.route('/review')
                 if (err) {
                     return res.status(403).json({success: false, msg: 'Unable to post review.'});
                 } else {
-                    review.user_id = ver_res.id;
+                    review.user_id = ver_res._id;
 
                 }
 
@@ -249,7 +249,7 @@ router.route('/review')
 
 
         else{
-            return res.json({success:false, msg:'Please include all the infromation.'});
+            return res.json({success:false, msg:'Please include all the information.'});
         }
 
     });
