@@ -218,9 +218,12 @@ router.route('/review')
             jwt.verify(req.headers.authorization.substring(4), process.env.SECRET_KEY, function (err, ver_res) {
                 if (err) {
                     return res.status(403).json({success: false, msg: 'Unable to post review.'});
-                } else {
-                    review.user_id = ver_res._id;
-
+                }
+                else if(!ver_res){
+                    return res.status(403).json({success:false, msg:'Unable to find the user.'});
+                }
+                    else {
+                    review.user_id = ver_res.id;
                 }
 
                 Movie.findOne({title: req.body.title}).exec(function (err, movie) {
