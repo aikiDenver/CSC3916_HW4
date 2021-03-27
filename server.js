@@ -217,7 +217,7 @@ router.route('/review')
             var review = new Review();
 
             console.log(res)
-            return res.status(403).json({success:false, msg'At least get here.'});
+            return res.status(403).json({success:false, msg:'At least get here.'});
 
             /*
             jwt.verify(req.headers.authorization.substring(4), process.env.SECRET_KEY, function (err, ver_res) {
