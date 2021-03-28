@@ -89,6 +89,34 @@ router.post('/signin', function (req, res) {
     })
 });
 
+router.route('movies/:reviews?')
+    .get(authJwtController.isAuthenticated, function (req,res){
+        if(req.query && req.query.reviews && req.query.reviews==='true'){
+            Movie.findOne({title: req.params.title}, function (err, movie){
+                if (err){
+                    return res.status(403).json({success:false, msg:'Cannot get reviews for this movie.'});
+                }else if(!movie){
+                    return res.status(403).json({success:false, msg:'Cannot find the movie title.'});
+                }else{
+                    Movie.aggregate()
+                        .match({_id:mongoose.Type.ObjectId(movie._id)})
+                        .lookup({from:'reviews', localField:'_id', forgienField:'movie_id', as: 'reviews'})
+                        .exec(function (err,result){
+                            if(err){
+                                return res.status(403).json({success: false, msg:'There are no movie with the title.'});
+                            }else{
+                                return res.status(200).json({success:true, msg:'Here are the reviews of the movie',movie:result});
+                            }
+                        })
+                }
+            });
+
+
+        }
+
+    })
+
+
 
 router.route('/movies')
 
@@ -215,9 +243,6 @@ router.route('/review')
     .post(authJwtController.isAuthenticated, function (req,res){
         if(req.body.comment && req.body.rating && req.body.title) {
             var review = new Review();
-
-            /*console.log(res)
-            return res.status(403).json({success:false, msg:'At least get here.'});*/
 
 
             jwt.verify(req.headers.authorization.substring(4), process.env.SECRET_KEY, function (err, ver_res) {
