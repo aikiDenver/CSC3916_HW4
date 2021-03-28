@@ -100,7 +100,7 @@ router.route('movies/:reviews?')
                 }else{
                     Movie.aggregate()
                         .match({_id:mongoose.Type.ObjectId(movie._id)})
-                        .lookup({from:'reviews', localField:'_id', forgienField:'movie_id', as: 'reviews'})
+                        .lookup({from:'reviews', localField:'_id', foreignField:'movie_id', as: 'reviews'})
                         .exec(function (err,result){
                             if(err){
                                 return res.status(403).json({success: false, msg:'There are no movie with the title.'});
@@ -113,6 +113,7 @@ router.route('movies/:reviews?')
 
 
         }
+
 
     })
 
