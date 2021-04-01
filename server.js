@@ -92,7 +92,7 @@ router.post('/signin', function (req, res) {
 router.route('movies/:movie_title')
     .get(authJwtController.isAuthenticated, function (req,res){
         if(req.query && req.query.reviews && req.query.reviews==='true'){
-            Movie.findOne({title: req.params.title}, function (err, movie){
+            Movie.findOne({title: req.params.movie_title}, function (err, movie){
                 if (err){
                     return res.status(403).json({success:false, msg:'Cannot get reviews for this movie.'});
                 }else if(!movie){
@@ -113,7 +113,18 @@ router.route('movies/:movie_title')
             });
         }
         else{
-            return res.status(403).json({success:false, msg:'It fail if statement.'});
+            Movie.find({title: req.params.movie_title}).select("titile year genre actors").exec(function (err,movie){
+                if(err){
+                    return res.status(403).json({success: false, msg:'Cannot find a movie with the title.'});
+                }
+                if(movie&&movie.length>0){
+                    return res.status(200).json({success:ture,msg:'Successfullyu retrieved movie', movie:movie});
+                }
+                else{
+                    return res.status(404).json({success:false, msg:'Unable to retrieve a match for the title.'});
+                }
+            })
+
         }
 
 
