@@ -121,7 +121,7 @@ router.route('movies/:movie_title')
                     return res.status(200).json({success:ture,msg:'Successfully retrieved movie', movie:movie});
                 }
                 else{
-                    return res.status(404).json({success:false, msg:'Unable to retrieve a match for the title.'});
+                    return res.status(403).json({success:false, msg:'Unable to retrieve a match for the title.'});
                 }
             })
 
