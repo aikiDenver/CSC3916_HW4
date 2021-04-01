@@ -89,7 +89,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
-router.route('movies/:reviews?')
+router.route('movies/:movie_title')
     .get(authJwtController.isAuthenticated, function (req,res){
         if(req.query && req.query.reviews && req.query.reviews==='true'){
             Movie.findOne({title: req.params.title}, function (err, movie){
@@ -101,6 +101,7 @@ router.route('movies/:reviews?')
                     Movie.aggregate()
                         .match({_id:mongoose.Type.ObjectId(movie._id)})
                         .lookup({from:'reviews', localField:'_id', foreignField:'movie_id', as: 'reviews'})
+                        .addFields({average_rating:{$avg:"$reviews.rating"}})
                         .exec(function (err,result){
                             if(err){
                                 return res.status(403).json({success: false, msg:'There are no movie with the title.'});
