@@ -89,7 +89,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
-/*
+
 router.route('movies/:movie_title')
     .get(authJwtController.isAuthenticated, function (req,res){
         if(req.query && req.query.reviews && req.query.reviews==='true'){
@@ -131,7 +131,8 @@ router.route('movies/:movie_title')
 
     })
 
-*/
+
+/*
 router.route('/reviews/:title')
     .get(authJwtController.isAuthenticated, function (req, res) {
         if (req.query.reviews === 'true')
@@ -147,7 +148,7 @@ router.route('/reviews/:title')
                     $lookup:
                         {
                             from: 'reviews',
-                            localField: 'Title',
+                            localField: 'title',
                             foreignField: 'MovieTitle',
                             as: 'Reviews'
                         }
@@ -179,7 +180,7 @@ router.route('/reviews/:title')
         });
     });
 
-
+*/
 
 router.route('/movies')
 
