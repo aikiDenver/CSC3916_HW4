@@ -99,7 +99,7 @@ router.route('movies/:movie_title')
                     return res.status(403).json({success:false, msg:'Cannot find the movie title.'});
                 }else{
                     Movie.aggregate()
-                        .match({_id:mongoose.Type.ObjectId(movie._id)})
+                        .match({_id: mongoose.Type.ObjectId(movie._id)})
                         .lookup({from:'reviews', localField:'_id', foreignField:'movie_id', as: 'reviews'})
                         .addFields({average_rating:{$avg:"$reviews.rating"}})
                         .exec(function (err,result){
