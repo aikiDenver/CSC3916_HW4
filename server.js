@@ -89,7 +89,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
-
+/*
 router.route('movies/:movie_title')
     .get(authJwtController.isAuthenticated, function (req,res){
         if(req.query && req.query.reviews && req.query.reviews==='true'){
@@ -130,9 +130,9 @@ router.route('movies/:movie_title')
 
 
     })
+*/
 
 
-/*
 router.route('/reviews/:title')
     .get(authJwtController.isAuthenticated, function (req, res) {
         if (req.query.reviews === 'true')
@@ -165,7 +165,7 @@ router.route('/reviews/:title')
         }
 
 
-        Movie.findOne({Title: req.params.title}).exec(function(err, movie1) {
+        Movie.findOne({title: req.params.title}).exec(function(err, movie1) {
             if (err) res.send(err);
 
             //var userJson = JSON.stringify(movie);
@@ -180,7 +180,7 @@ router.route('/reviews/:title')
         });
     });
 
-*/
+
 
 router.route('/movies')
 
