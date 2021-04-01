@@ -89,6 +89,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
+/*
 router.route('movies/:movie_title')
     .get(authJwtController.isAuthenticated, function (req,res){
         if(req.query && req.query.reviews && req.query.reviews==='true'){
@@ -129,6 +130,54 @@ router.route('movies/:movie_title')
 
 
     })
+
+*/
+router.route('/reviews/:title')
+    .get(authJwtController.isAuthenticated, function (req, res) {
+        if (req.query.reviews === 'true')
+        {
+            var title = req.params.title;
+            Movie.aggregate([
+                {
+                    $match: {
+                        Title: title
+                    }
+                },
+                {
+                    $lookup:
+                        {
+                            from: 'reviews',
+                            localField: 'Title',
+                            foreignField: 'MovieTitle',
+                            as: 'Reviews'
+                        }
+                }
+
+            ]).exec((err, movie)=>{
+                if (err) res.json({message: 'Failed to get review'});
+                res.json(movie);
+            });
+        }
+        else
+        {
+            res.json({message: 'Please send a response with the query parameter true'});
+        }
+
+
+        Movie.findOne({Title: req.params.title}).exec(function(err, movie1) {
+            if (err) res.send(err);
+
+            //var userJson = JSON.stringify(movie);
+            // return that user
+            if (movie1 !== null){
+                res.json(movie1);
+            }
+            else{
+                res.json({ message: 'Movie is not found' });
+            }
+
+        });
+    });
 
 
 
