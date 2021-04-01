@@ -113,12 +113,12 @@ router.route('movies/:movie_title')
             });
         }
         else{
-            Movie.find({title: req.params.movie_title}).select("titile year genre actors").exec(function (err,movie){
+            Movie.find({title: req.params.movie_title}).select("title year genre actors").exec(function (err,movie){
                 if(err){
                     return res.status(403).json({success: false, msg:'Cannot find a movie with the title.'});
                 }
                 if(movie&&movie.length>0){
-                    return res.status(200).json({success:ture,msg:'Successfullyu retrieved movie', movie:movie});
+                    return res.status(200).json({success:ture,msg:'Successfully retrieved movie', movie:movie});
                 }
                 else{
                     return res.status(404).json({success:false, msg:'Unable to retrieve a match for the title.'});
