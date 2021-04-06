@@ -219,15 +219,34 @@ router.route('/movies')
 
     .get(authJwtController.isAuthenticated, function(req, res){
         //should return all the movie
-        Movie.find(function (err,movies){
-            if(err){
-                return res.json(err);
-            }
-            else{
-                res.json(movies);
-            }
-        });
+        if(req.query && req.query.reviews && req.query.reviews==='true') {
+            //In the movie.aggregate you do it with no match since its all moves
+            Movie.aggregate()
+                .lookup({from: 'reviews', localField: '_id', foreignField: 'movie_id', as: 'reviews'})
+                .addFields({average_rating: {$avg: "$reviews.rating"}})
+                .exec(function (err, result) {
+                    if (err) {
+                        return res.status(403).json({success: false, msg: 'There are no movie with the title.'});
+                    } else {
+                        return res.status(200).json({
+                            success: true,
+                            msg: 'Here are the reviews of the movie',
+                            movie: result
+                        });
+                    }
+                })
+        }
 
+            else if(req.query && req.query.reviews && req.query.reviews==='false') {
+
+            Movie.find(function (err, movies) {
+                if (err) {
+                    return res.json(err);
+                } else {
+                    res.json(movies);
+                }
+            })
+        }
     })
 
     .put(authJwtController.isAuthenticated, function(req, res) {
