@@ -187,7 +187,7 @@ router.route('/movies')
     .post(authJwtController.isAuthenticated,function (req, res) {
         //register a movie from the user input
             //check if the all info is there -> not give error
-            if (!req.body.title || !req.body.year || !req.body.genre || !req.body.actors) {
+            if (!req.body.title || !req.body.year || !req.body.genre || !req.body.actors ||!req.body.imageUrl) {
                 res.json({success: false, msg: 'Please include all the information of movie.'})
             }
             else {
@@ -200,6 +200,7 @@ router.route('/movies')
                     MovieNew.year = req.body.year;
                     MovieNew.genre = req.body.genre;
                     MovieNew.actors = req.body.actors;
+                    MovieNew.imageUrl = req.body.imageUrl;
                     //MovieNew. = req.headers.id
 
                     MovieNew.save(function (err) {
